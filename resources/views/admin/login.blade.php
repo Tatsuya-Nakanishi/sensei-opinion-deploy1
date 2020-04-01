@@ -3,7 +3,7 @@
 
 
 {{-- auth.blade.phpの@yield('title')に''を埋め込む --}}
-@section('title', 'ユーザーログイン画面')
+@section('title', 管理者ログイン画面')
 
 
 

@@ -6,34 +6,35 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
+
 class User extends Authenticatable
 {
-    use Notifiable;
+  protected $fillable = [
+  'name', 'email', 'password','age','job','school'
+  ];
+    
+  public static $rules = array(
+      'name' => 'required',
+      'email' => 'required',
+      'password' => 'required',
+      'age' => 'required',
+      'job' => 'required',
+      'school' => 'required',
+  );
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  public static $updaterules = array(
+      'name' => 'required',
+      'email' => 'required',
+      'age' => 'required',
+      'job' => 'required',
+      'school' => 'required',
+  );
+  public function threads(){
+    return $this->hasMany('App\Threads')->latest();
+  }
+  
+  public function comments(){
+    return $this->hasMany('App\Comments');
+  }
 }

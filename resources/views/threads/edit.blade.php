@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <h2>相談の編集</h2>
-              <form action="#" method="post" enctype="multipart/form-data">
+              <form action="{{ action('ThreadsController@update') }}" method="post" enctype="multipart/form-data">
                   
                   {{-- ここでif文でcount($errors)　--}}
                   @if (count($errors) > 0)
@@ -26,24 +26,25 @@
                     @endif
                   
                 <div class="form-group row">
-                    <label class="col-md-2">お悩みの種類</label>
+                    <label class="col-md-2" for="category_id">お悩みの種類</label>
                     <div class="col-md-10">
-　　　　　　　　　　　<select name="category" data-toggle="select" class="form-control select select-default" id="category">
-                          <option>学校生活</option>
-                          <option>人間関係</option>
-                          <option>学習面</option>
-                          <option>進路</option>
+　　　　　　　　　　　<select name="category_id" data-toggle="select" class="form-control select select-default"  >
+                          <option value="1" name="1">学校生活</option>
+                          <option value="2" name="2">人間関係</option>
+                          <option value="3" name="3">学習面</option>
+                          <option value="4" name="4">進路</option>
                       </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-2">本文</label>
+                    <label class="col-md-2"　for="body">本文</label>
                       <div class="col-md-10">
                           <textarea class="form-control" name="body" rows="20" placeholder=
-                          "先生方に相談したいお悩みを書きましょう！" >{{ old('body') }}</textarea>
+                          "先生方に相談したいお悩みを書きましょう！" >{{ old('body', $threads_form->body) }}</textarea>
                       </div>
                 </div>
                 {{ csrf_field() }}
+                    <input type="hidden" name="thread_id" value="{{ $threads_form->id }}">
                     <input type="submit" class="btn btn-primary" value="編集を完了する">
               </form>
             </div>

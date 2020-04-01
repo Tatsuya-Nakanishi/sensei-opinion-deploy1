@@ -6,10 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- CSRF Token -->
-         {{-- 後の章で説明します --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        {{-- 各ページごとにtitleタグを入れるために@yieldで空けておきます。 --}}
         <title>@yield('title')</title>
 
         <!-- Scripts -->
@@ -21,9 +19,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        {{-- Laravel標準で用意されているCSSを読み込みます --}}
         <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
-        {{-- この章の後半で作成するCSSを読み込みます --}}
         <link href="{{ secure_asset('css/home.css') }}" rel="stylesheet">
     </head>
     <body>
@@ -43,23 +39,47 @@
                         {{-- 先生オピニオンをクリックするとどのページからでもトップ画面に戻る事ができる。 --}}
                         <ul class="navbar-nav mr-auto">
                            <li class="nav-item">
-                              <a class="nav-link" href="#">先生オピニオン</a>
+                              <a class="nav-link" href="/">先生オピニオン</a>
                            </li>
                         </ul>
 
                         <!-- Right Side Of Navbar -->
+                        
                         <ul class="navbar-nav ml-auto">
-                             <a class="nav-link" href="#">マイページ</a>
-                             <a class="nav-link" href="#">新規登録</a>
-                             <a class="nav-link" href="#">ログイン</a>
+                            @guest
+                             <a class="nav-link" href="user/register">新規登録</a>
+                             <a class="nav-link" href="user/login">ログイン</a>
+                             @else
+                             <li class="nav-item">
+                              <a class="nav-link" href="mypage/index">マイページ</a>
+                           　</li>
+                             <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" 
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="user/logout"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="logout" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                            @endguest
                         </ul>
+                        
                     </div>
                 </div>
             </nav>
             {{-- ここまでナビゲーションバー --}}
 
             <main class="py-4">
-                {{-- コンテンツをここに入れるため、@yieldで空けておきます。 --}}
                 @yield('content')
             </main>
         </div>
